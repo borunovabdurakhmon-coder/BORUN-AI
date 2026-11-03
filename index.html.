@@ -4,63 +4,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BORUN AI</title>
+<title>BORUN-AI</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#10131b;color:white;font-family:Arial,sans-serif}
-header{padding:20px;background:#191f2c;font-size:23px;font-weight:bold}
-header span{color:#8290ff}
-main{max-width:800px;margin:auto;padding:25px 15px 130px}
-.welcome{text-align:center;margin-top:17vh}
-.logo{background:linear-gradient(135deg,#8290ff,#a879ed);width:65px;height:65px;border-radius:20px;margin:auto;display:grid;place-items:center;font-size:30px;font-weight:bold}
-h1{font-size:30px}
-#messages{display:flex;flex-direction:column;gap:15px}
-.message{padding:15px;border-radius:15px;line-height:1.5;max-width:90%;white-space:pre-wrap}
-.user{background:#293650;align-self:flex-end}
-.bot{background:#202838;align-self:flex-start}
-form{position:fixed;bottom:0;left:0;right:0;background:#10131b;padding:15px;display:flex;gap:10px}
-input{flex:1;min-width:0;padding:15px;border-radius:13px;border:1px solid #39445a;background:#202838;color:white;font-size:16px}
-button{border:0;border-radius:13px;background:#8290ff;color:white;padding:0 20px;font-size:20px}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #212121;
+  color: white;
+}
+header {
+  height: 60px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #171717;
+  border-bottom: 1px solid #383838;
+}
+.logo { font-size: 21px; font-weight: bold; }
+.logo span { color: #19c37d; }
+.new-chat {
+  background: #303030;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 9px;
+  padding: 9px 12px;
+}
+main {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px 15px 120px;
+}
+.welcome {
+  text-align: center;
+  margin-top: 18vh;
+}
+.welcome h1 { font-size: 32px; }
+.welcome p { color: #aaa; }
+#messages {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.message {
+  padding: 14px 17px;
+  border-radius: 15px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.user {
+  background: #343434;
+  align-self: flex-end;
+  max-width: 85%;
+}
+.bot {
+  background: #292929;
+  align-self: flex-start;
+  max-width: 95%;
+}
+.input-area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(transparent, #212121 20%);
+}
+.input-box {
+  max-width: 800px;
+  margin: auto;
+  display: flex;
+  gap: 9px;
+  background: #303030;
+  border: 1px solid #555;
+  border-radius: 16px;
+  padding: 9px;
+}
+input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  color: white;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 8px;
+}
+.send {
+  background: #19c37d;
+  border: none;
+  border-radius: 11px;
+  padding: 0 17px;
+  font-size: 20px;
+  color: #10251b;
+}
+.note {
+  color: #888;
+  font-size: 11px;
+  text-align: center;
+  margin-top: 8px;
+}
 </style>
 </head>
 <body>
-<header> BORUN <span>AI</span></header>
+
+<header>
+  <div class="logo">BORUN<span>-AI</span></div>
+  <button class="new-chat" onclick="newChat()">＋ Новый чат</button>
+</header>
+
 <main>
-<div class="welcome" id="welcome">
-<div class="logo">B</div>
-<h1>Чем могу помочь?</h1>
-<p>Добро пожаловать в BORUN AI</p>
-</div>
-<div id="messages"></div>
+  <div class="welcome" id="welcome">
+    <h1>Привет! 👋</h1>
+    <p>Я BORUN-AI. Чем могу помочь?</p>
+  </div>
+  <div id="messages"></div>
 </main>
-<form id="form">
-<input id="input" placeholder="Напиши сообщение..." autocomplete="off">
-<button type="submit">➤</button>
-</form>
+
+<div class="input-area">
+  <div class="input-box">
+    <input id="question" placeholder="Напишите сообщение..."
+      onkeydown="if(event.key==='Enter') sendMessage()">
+    <button class="send" onclick="sendMessage()">➤</button>
+  </div>
+  <div class="note">BORUN-AI · Демоверсия интерфейса</div>
+</div>
+
 <script>
-const form=document.getElementById("form");
-const input=document.getElementById("input");
-const messages=document.getElementById("messages");
-const welcome=document.getElementById("welcome");
+function sendMessage() {
+  const input = document.getElementById("question");
+  const text = input.value.trim();
+  if (!text) return;
 
-form.addEventListener("submit",function(e){
-e.preventDefault();
-const text=input.value.trim();
-if(!text)return;
-welcome.style.display="none";
+  document.getElementById("welcome").style.display = "none";
 
-const user=document.createElement("div");
-user.className="message user";
-user.textContent=text;
-messages.appendChild(user);
+  const messages = document.getElementById("messages");
 
-const answer=document.createElement("div");
-answer.className="message bot";
-answer.textContent="Привет! Я BORUN AI. Твоё сообщение получено. Скоро я научусь отвечать на вопросы с помощью настоящего ИИ.";
-messages.appendChild(answer);
+  const user = document.createElement("div");
+  user.className = "message user";
+  user.textContent = text;
+  messages.appendChild(user);
 
-input.value="";
-});
+  input.value = "";
+
+  const bot = document.createElement("div");
+  bot.className = "message bot";
+  bot.textContent =
+    "Привет! Я BORUN-AI. Интерфейс чата уже работает! " +
+    "Для настоящих ответов ИИ нужно подключить AI-сервер.";
+  messages.appendChild(bot);
+
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function newChat() {
+  document.getElementById("messages").innerHTML = "";
+  document.getElementById("welcome").style.display = "block";
+  document.getElementById("question").value = "";
+}
 </script>
+
 </body>
 </html>
