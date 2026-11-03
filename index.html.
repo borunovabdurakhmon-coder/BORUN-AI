@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BORUN AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#10131b;color:white;font-family:Arial,sans-serif}
+header{padding:20px;background:#191f2c;font-size:23px;font-weight:bold}
+header span{color:#8290ff}
+main{max-width:800px;margin:auto;padding:25px 15px 130px}
+.welcome{text-align:center;margin-top:17vh}
+.logo{background:linear-gradient(135deg,#8290ff,#a879ed);width:65px;height:65px;border-radius:20px;margin:auto;display:grid;place-items:center;font-size:30px;font-weight:bold}
+h1{font-size:30px}
+#messages{display:flex;flex-direction:column;gap:15px}
+.message{padding:15px;border-radius:15px;line-height:1.5;max-width:90%;white-space:pre-wrap}
+.user{background:#293650;align-self:flex-end}
+.bot{background:#202838;align-self:flex-start}
+form{position:fixed;bottom:0;left:0;right:0;background:#10131b;padding:15px;display:flex;gap:10px}
+input{flex:1;min-width:0;padding:15px;border-radius:13px;border:1px solid #39445a;background:#202838;color:white;font-size:16px}
+button{border:0;border-radius:13px;background:#8290ff;color:white;padding:0 20px;font-size:20px}
+</style>
+</head>
+<body>
+<header> BORUN <span>AI</span></header>
+<main>
+<div class="welcome" id="welcome">
+<div class="logo">B</div>
+<h1>Чем могу помочь?</h1>
+<p>Добро пожаловать в BORUN AI</p>
+</div>
+<div id="messages"></div>
+</main>
+<form id="form">
+<input id="input" placeholder="Напиши сообщение..." autocomplete="off">
+<button type="submit">➤</button>
+</form>
+<script>
+const form=document.getElementById("form");
+const input=document.getElementById("input");
+const messages=document.getElementById("messages");
+const welcome=document.getElementById("welcome");
+
+form.addEventListener("submit",function(e){
+e.preventDefault();
+const text=input.value.trim();
+if(!text)return;
+welcome.style.display="none";
+
+const user=document.createElement("div");
+user.className="message user";
+user.textContent=text;
+messages.appendChild(user);
+
+const answer=document.createElement("div");
+answer.className="message bot";
+answer.textContent="Привет! Я BORUN AI. Твоё сообщение получено. Скоро я научусь отвечать на вопросы с помощью настоящего ИИ.";
+messages.appendChild(answer);
+
+input.value="";
+});
+</script>
+</body>
+</html>
